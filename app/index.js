@@ -131,11 +131,11 @@ module.exports = class extends Generator {
     
 
     // Copy README
-    this.fs.copyTpl(
-      this.templatePath('README.md'),
-      this.destinationPath('README.md'),
-      { name, description }
-    )
+    // this.fs.copyTpl(
+    //   this.templatePath('README.md'),
+    //   this.destinationPath('README.md'),
+    //   { name, description }
+    // )
 
     // Copy JS
     this.fs.copy(this.templatePath('*.js'), this.destinationRoot())
