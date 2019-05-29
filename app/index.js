@@ -98,26 +98,35 @@ module.exports = class extends Generator {
     }
 
     if (weapp) {
-      this.fs.copy(this.templatePath('src/adapters/weapp/**'), this.destinationPath('src'))
       this.fs.copy(this.templatePath('config/project.config.json'), this.destinationPath('config'))
+      this.fs.copy(this.templatePath('src/adapters/weapp/**'), this.destinationPath('src/adapters/weapp'))
     }
     if (swan) {
-      this.fs.copy(this.templatePath('src/adapters/swan/**'), this.destinationPath('src'))
       this.fs.copy(this.templatePath('config/project.swan.json'), this.destinationPath('config'))
+      this.fs.copy(this.templatePath('src/adapters/swan/**'), this.destinationPath('src/adapters/swan'))
     }
     if (aliapp) {
-      this.fs.copy(this.templatePath('src/adapters/aliapp/**'), this.destinationPath('src'))
       this.fs.copy(this.templatePath('config/project.aliapp.json'), this.destinationPath('config'))
+      this.fs.copy(this.templatePath('src/adapters/aliapp/**'), this.destinationPath('src/adapters/aliapp'))
     }
 
     // Copy dot files of templates
     this.fs.copy(this.templatePath('.*'), this.destinationRoot())
 
-    // Copy package.json
-    let templatePackage = R.merge(
+     // Copy package.json
+     let templatePackage = R.merge(
       this.fs.readJSON(this.templatePath('package.json')),
       { name, description }
     )
+    if (this.isUpgrade) {
+      const config = R.pick(
+        ['version', 'dependencies'],
+        this.fs.readJSON(this.destinationPath('package.json'))
+      )
+      templatePackage = R.merge(templatePackage, config)
+    }
+    this.fs.writeJSON(this.destinationPath('package.json'), templatePackage)
+
 
     
 
