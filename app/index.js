@@ -36,6 +36,21 @@ module.exports = class extends Generator {
     const appPackage = this.fs.readJSON(this.destinationPath('package.json'))
     const prompts = [
       {
+        type: 'confirm',
+        name: 'weapp',
+        message: 'Would you like to use functional difference adaptions for weapp of wechat?',
+      },
+      {
+        type: 'confirm',
+        name: 'swan',
+        message: 'Would you like to use functional difference adaptions for swan of baidu?',
+      },
+      {
+        type: 'confirm',
+        name: 'aliapp',
+        message: 'Would you like to use functional difference adaptions for aliapp of alipay?',
+      },
+      {
         type: 'input',
         name: 'name',
         message: 'Your project name:',
@@ -46,21 +61,6 @@ module.exports = class extends Generator {
         name: 'description',
         message: 'Your project description:',
         default: this.isUpgrade ? appPackage.description : this.appname,
-      },
-      {
-        type: 'confirm',
-        name: 'weapp',
-        message: 'Would you like to use functional difference adaptions for weapp?',
-      },
-      {
-        type: 'confirm',
-        name: 'swan',
-        message: 'Would you like to use functional difference adaptions for swan?',
-      },
-      {
-        type: 'confirm',
-        name: 'aliapp',
-        message: 'Would you like to use functional difference adaptions for aliapp?',
       },
       {
         type: 'confirm',
@@ -88,7 +88,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    const { name, description } = this.props
+    const { name, description, weapp, swan, aliapp } = this.props
 
     // Copy example code
     if (!this.isUpgrade) {
@@ -97,14 +97,18 @@ module.exports = class extends Generator {
       this.fs.copy(this.templatePath('src/.*'), this.destinationRoot())
     }
 
-    this.fs.copy(
-      this.templatePath('config/**'),
-      this.destinationPath('config')
-    )
-    this.fs.copy(
-      this.templatePath('src/adapters/*'),
-      this.destinationPath('src')
-    )
+    if (weapp) {
+      this.fs.copy(this.templatePath('src/adapters/weapp/*'), this.destinationPath('src'))
+      this.fs.copy(this.templatePath('config/project.config.json'), this.destinationPath('config'))
+    }
+    if (swan) {
+      this.fs.copy(this.templatePath('src/adapters/swan/*'), this.destinationPath('src'))
+      this.fs.copy(this.templatePath('config/project.swan.json'), this.destinationPath('config'))
+    }
+    if (aliapp) {
+      this.fs.copy(this.templatePath('src/adapters/aliapp/*'), this.destinationPath('src'))
+      this.fs.copy(this.templatePath('config/project.aliapp.json'), this.destinationPath('config'))
+    }
 
     // Copy dot files of templates
     this.fs.copy(this.templatePath('.*'), this.destinationRoot())

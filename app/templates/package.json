@@ -1,7 +1,7 @@
 {
-  "name": "crinum",
+  "name": "demo",
   "version": "1.0.0",
-  "description": "达达小程序",
+  "description": "**小程序",
   "main": "index.js",
   "scripts": {
     "start:weapp": "gulp start --target weapp",
@@ -9,7 +9,6 @@
     "start:aliapp": "gulp start --target aliapp",
     "format": "gulp format"
   },
-  "repository": "git@git.corp.imdada.cn:fe/crinum.git",
   "author": "sunbinbin",
   "license": "ISC",
   "dependencies": {
