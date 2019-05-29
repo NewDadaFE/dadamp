@@ -1,0 +1,18 @@
+/* pages/upgrade/index.wxss */
+.text {
+  color: #22252a;
+  font-size: 40rpx;
+  margin-top: 60rpx;
+}
+
+.btn {
+  margin-top: 60rpx;
+}
+
+.hello {
+  background: #ff00ff;
+}
+
+.damn {
+  background: #00ff00;
+}

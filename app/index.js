@@ -22,13 +22,17 @@ module.exports = class extends Generator {
     this.option('upgrade')
 
     this.isUpgrade = Boolean(this.options.upgrade)
+
+    if (this.isUpgrade) {
+      this.log(yosay('its gonna upgrade!'))
+    }
   }
 
   prompting() {
     this.log(
       yosay(
         `Welcome to the neat ${chalk.red(
-          'generator-multi-miniprogram'
+          'multi-miniprogram'
         )} generator!`
       )
     )
@@ -97,6 +101,7 @@ module.exports = class extends Generator {
       this.fs.copy(this.templatePath('src/.*'), this.destinationRoot())
     }
 
+    // copy adtapter files
     if (weapp) {
       this.fs.copy(this.templatePath('config/project.config.json'), this.destinationPath('config/project.config.json'))
       this.fs.copy(this.templatePath('src/adapters/weapp/**'), this.destinationPath('src/adapters/weapp'))
@@ -109,6 +114,9 @@ module.exports = class extends Generator {
       this.fs.copy(this.templatePath('config/project.aliapp.json'), this.destinationPath('config/project.aliapp.json'))
       this.fs.copy(this.templatePath('src/adapters/aliapp/**'), this.destinationPath('src/adapters/aliapp'))
     }
+
+    // copy adtapter api file
+    this.fs.copy(this.templatePath('src/adapters/index.js'), this.destinationPath('src/adapters/index.js'))
 
     // Copy dot files of templates
     this.fs.copy(this.templatePath('.*'), this.destinationRoot())

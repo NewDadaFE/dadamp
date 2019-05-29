@@ -1,1 +1,5 @@
-小程序，基于 gulp4 和 webpack 打包，src 为源代码，dist** 为打包后代码，小程序添加项目文件夹指定 dist** 目录
+<%= name %>
+
+<%= description %>
+
+<%= name %>小程序，基于 gulp4 和 webpack 打包，src 为源代码，dist** 为打包后代码，小程序添加项目文件夹指定 dist** 目录

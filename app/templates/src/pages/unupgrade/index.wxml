@@ -1,9 +1,0 @@
-<view>
-  <view>what do you wanna say to this word?</view>
-
-  <button wx:for={{options}} wx:for-item="item" wx:key="index" data-word="{{item}}" bindtap="say">
-    <view wx:if="{{index > 0}}" class="hello">option{{index}}</view>
-    <view wx:else class="damn">option{{index}}</view>
-  </button>
-</view>
- 

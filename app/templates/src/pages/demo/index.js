@@ -1,4 +1,4 @@
-import { API_ADPTER } from 'src/common/adapters/index'
+import { showToast } from '../../common/utils/commonApiDiff'
 
 Page({
   name: '项目升级示例',
@@ -6,6 +6,6 @@ Page({
     options: ['hello world', 'damn world', 'good bye world'],
   },
   say(e) {
-    API_ADPTER.showToast({ e.word || e.detail.word})
+    showToast({ 'title': e.currentTarget.dataset.word })
   },
 })
