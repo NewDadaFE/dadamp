@@ -92,21 +92,21 @@ module.exports = class extends Generator {
 
     // Copy example code
     if (!this.isUpgrade) {
-      this.fs.copy(this.templatePath('src/pages/**'), this.destinationPath('src'))
+      this.fs.copy(this.templatePath('src/pages/**'), this.destinationPath('src/pages'))
       // Copy dot files of src
       this.fs.copy(this.templatePath('src/.*'), this.destinationRoot())
     }
 
     if (weapp) {
-      this.fs.copy(this.templatePath('config/project.config.json'), this.destinationPath('config'))
+      this.fs.copy(this.templatePath('config/project.config.json'), this.destinationPath('config/project.config.json'))
       this.fs.copy(this.templatePath('src/adapters/weapp/**'), this.destinationPath('src/adapters/weapp'))
     }
     if (swan) {
-      this.fs.copy(this.templatePath('config/project.swan.json'), this.destinationPath('config'))
+      this.fs.copy(this.templatePath('config/project.swan.json'), this.destinationPath('config/project.swan.json'))
       this.fs.copy(this.templatePath('src/adapters/swan/**'), this.destinationPath('src/adapters/swan'))
     }
     if (aliapp) {
-      this.fs.copy(this.templatePath('config/project.aliapp.json'), this.destinationPath('config'))
+      this.fs.copy(this.templatePath('config/project.aliapp.json'), this.destinationPath('config/project.aliapp.json'))
       this.fs.copy(this.templatePath('src/adapters/aliapp/**'), this.destinationPath('src/adapters/aliapp'))
     }
 
@@ -127,15 +127,12 @@ module.exports = class extends Generator {
     }
     this.fs.writeJSON(this.destinationPath('package.json'), templatePackage)
 
-
-    
-
     // Copy README
-    // this.fs.copyTpl(
-    //   this.templatePath('README.md'),
-    //   this.destinationPath('README.md'),
-    //   { name, description }
-    // )
+    this.fs.copyTpl(
+      this.templatePath('README.md'),
+      this.destinationPath('README.md'),
+      { name, description }
+    )
 
     // Copy JS
     this.fs.copy(this.templatePath('*.js'), this.destinationRoot())

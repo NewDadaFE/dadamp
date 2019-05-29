@@ -1,0 +1,7 @@
+<block wx:if="{{show}}">
+  <view catchtouchmove="handleCatch" class="modal-mask" animation="{{maskAnimation}}">
+    <view class="modal" wx:if="{{show}}" animation="{{contentAnimation}}">
+      <slot></slot>
+    </view>
+  </view>
+</block>
