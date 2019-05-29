@@ -1,0 +1,28 @@
+{
+  "name": "generator-multi-miniprogram",
+  "version": "0.0.6",
+  "license": "MIT",
+  "description": "Yeoman generator for Vue",
+  "dependencies": {
+    "chalk": "~2.1.0",
+    "mkdirp": "~0.5.1",
+    "ramda": "~0.24.1",
+    "yeoman-generator": "~1.1.1",
+    "yosay": "~2.0.1"
+  },
+  "repository": "NewDadaFE/miniprogram-adaptation-cli",
+  "engines": {
+    "node": ">=6"
+  },
+  "files": [
+    "app"
+  ],
+  "keywords": [
+    "generator",
+    "impression",
+    "es6",
+    "webpack",
+    "scss",
+    "yeoman-generator"
+  ]
+}

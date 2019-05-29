@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/upgrade/index",
+    "pages/unupgrade/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "达达",
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom",
+    "defaultTitle": "达达"
+  }
+}

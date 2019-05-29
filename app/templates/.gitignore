@@ -1,0 +1,12 @@
+.vscode
+.DS_Store
+typings
+jsconfig.json
+.idea
+node_modules/
+dist/
+distSwan/
+distAliapp/
+distWeapp/
+wx2swan/
+mock/

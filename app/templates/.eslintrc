@@ -1,0 +1,28 @@
+{
+  "extends": ["standard"],
+  "parserOptions": {
+    "parser": "babel-eslint",
+    "allowImportExportEverywhere": true
+  },
+  "rules": {
+    "space-before-function-paren": [
+      "error",
+      { "anonymous": "always", "named": "never", "asyncArrow": "always" }
+    ],
+    "comma-dangle": ["error", "always-multiline"],
+    "no-restricted-modules": ["error", {
+      "patterns": ["*"]
+      }
+    ]
+  },
+  "globals": {
+    "wx": true,
+    "swan": true,
+    "my": true,
+    "App": true,
+    "Page": true,
+    "getApp": true,
+    "Component": true,
+    "getCurrentPages": true
+  },
+}

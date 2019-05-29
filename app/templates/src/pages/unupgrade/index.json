@@ -1,0 +1,10 @@
+{
+  "backgroundColor": "#fff",
+  "navigationBarTitleText": "验证手机号",
+  "usingComponents": {
+    "icon-dada": "../../components/icon/index",
+    "btn": "../../components/button/index",
+    "timer": "../../components/timer/index",
+    "navbar-container": "src/common/components/navbar-container/index"
+  }
+}

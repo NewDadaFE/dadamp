@@ -1,0 +1,36 @@
+.container {
+  text-align: center;
+  height: 100%;
+  background: #fff;
+  padding: 40rpx;
+}
+
+.step-title {
+  margin-top: 60rpx;
+}
+
+.phone-input {
+  width: 380rpx;
+  margin: 20rpx auto 0;
+  padding-bottom: 5rpx;
+  border-bottom: 1rpx solid #22252a;
+  font-size: 50rpx;
+  text-align: center;
+}
+
+.avatar {
+  max-height: 120rpx;
+  max-width: 120rpx;
+  border-radius: 60rpx;
+}
+
+.btn-area {
+  margin: 0 auto;
+  margin-top: 55rpx;
+  width: 400rpx;
+}
+
+.photo-validate-code-img {
+  height: 40px;
+  width: 80px;
+}
