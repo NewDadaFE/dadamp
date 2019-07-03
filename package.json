@@ -1,6 +1,6 @@
 {
-  "name": "generator-multi-miniprogram",
-  "version": "1.0.0",
+  "name": "generator-dadamp",
+  "version": "1.0.1",
   "license": "MIT",
   "description": "Yeoman generator for Vue",
   "dependencies": {

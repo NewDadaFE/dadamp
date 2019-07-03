@@ -32,7 +32,7 @@ module.exports = class extends Generator {
     this.log(
       yosay(
         `Welcome to the neat ${chalk.red(
-          'multi-miniprogram'
+          'dadamp'
         )} generator!`
       )
     )

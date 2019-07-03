@@ -1,4 +1,4 @@
-# generator-multi-miniprogram
+# generator-dadamp
 
 > Vue + Vuex + Vue Router + Vue Impression + Webpack 3
 
@@ -6,29 +6,26 @@
 
 ## 安装
 
-首先, 安装`Yeoman`和`generator-multi-miniprogram`:
+首先, 安装`Yeoman`和`generator-dadamp`:
 
 ```bash
-yarn global add yo generator-multi-miniprogram
+yarn global add yo generator-dadamp
 ```
 
-然后创建新项目:
+## 创建新项目
 
 ```bash
-yo multi-miniprogram
+yo dadamp
 ```
 
-或者升级旧项目:
+## 升级旧项目
 
 ```bash
 cd YOUR_PROJECT_FOLDER
-yo multi-miniprogram --upgrade
+yo dadamp --upgrade
 ```
+## 开发文档
 
-- 遵守[style-guide][style-guide]规范
-- 使用[Vuex#Module][vuex-module]拆分 store
-- 使用[Ramda#assocPath][ramda-assocpath]更新嵌套数据
-- 使用[CSS Modules][css-modules]创建模块化样式
 
 ## License
 
