@@ -109,7 +109,7 @@ module.exports = class extends Generator {
     // clone adtapter unique files
     if (dadaMPAdapter) {
       try {
-        execSync(`git clone git@git.corp.imdada.cn:fe/dadaMPAdapter.git ${this.props.name}/src/adapters/unique`)
+        execSync(`git clone git@git.corp.imdada.cn:fe/dadaMPAdapter.git src/adapters/unique`)
         this.log('正在尝试下载达达公司独有业务适配代码...')
       } catch (e) {
         this.log('尝试下载达达公司独有业务适配代码失败！请检查自己的git权限和git配置。')
