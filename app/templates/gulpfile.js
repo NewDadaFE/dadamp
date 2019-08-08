@@ -1,6 +1,4 @@
 const gulp = require('gulp')
-const gulpSass = require('gulp-sass')
-const gulpSourcemaps = require('gulp-sourcemaps')
 const gulpRename = require('gulp-rename')
 const gulpClean = require('gulp-clean')
 const gulpReplace = require('gulp-replace')
@@ -19,6 +17,7 @@ const argv = require('yargs').argv
 const options = {
   'target': argv.target || 'weapp'
 }
+const APP_TYPE = options.target
 
 const isWeapp = options.target === 'weapp'
 const isSwan = options.target === 'swan'
@@ -28,6 +27,7 @@ let dependencies = null
 let prevDependencies = null
 let DEST = ''
 let ADAPTER_SOURCE = ''
+let API_ADAPTER = ''
 
 if (isWeapp) {
   DEST = 'distWeapp'
@@ -35,9 +35,11 @@ if (isWeapp) {
 } else if (isSwan) {
   DEST = 'distSwan'
   ADAPTER_SOURCE = 'swan'
+  API_ADAPTER = 'swan.'
 } else {
   DEST = 'distAliapp'
   ADAPTER_SOURCE = 'aliapp'
+  API_ADAPTER = 'my.'
 }
 
 // XML = 'src/**/*.{wxml,wxss}'
@@ -49,8 +51,7 @@ const SRC = {
   IMAGE: ['src/**/*.{png,jpg,jpeg,gif,svg}', '!src/adapters/**/*'],
   CONFIG: 'src/project*.json',
   XML: ['src/**/*.wxml', '!src/adapters/**/*'],
-  ADAPTER: `src/adapters/${ADAPTER_SOURCE}/**/*`,
-  ADAPTER_INDEX: 'src/adapters/index.js',
+  ADAPTER: [`src/adapters/unique/${ADAPTER_SOURCE}/**/*`, `src/adapters/common/${ADAPTER_SOURCE}/**/*`]
 }
 
 function handleError (err) {
@@ -85,25 +86,6 @@ function preProcessAdapter() {
     )
     .pipe(gulp.dest('src'))
 }
-// 兼容代码预处理
-function preProcessAdapterIndex() {
-  return gulp
-    .src(SRC.ADAPTER_INDEX)
-    .pipe(
-      gulpRename(path => {
-        if (path.extname !== '') {
-          preProcessAdapterPath.push(`src/common/adapters/${path.basename}${path.extname}`)
-        }
-      })
-    )
-    .pipe(gulp.dest('src/common/adapters'))
-}
-// 删除预处理后的兼容代码
-function processedAdapterCodeClean() {
-  return gulp
-    .src(preProcessAdapterPath, { allowEmpty: true })
-    .pipe(gulpClean())
-}
 
 function xml() {
   return gulp
@@ -124,7 +106,7 @@ function eslint() {
     .pipe(gulp.dest('./src/'))
 }
 
-function pathScriptCommon() {
+function compileScriptCommon() {
   return gulp
     .src(SRC.SCRIPT, {since: gulp.lastRun(pathScript)})
     .pipe(
@@ -156,15 +138,19 @@ function pathScriptCommon() {
 
         return `from '${relativePath}'`
       })
+    ).pipe(
+      gulpReplace(/APP\_TYPE/g, function (match) {
+        return `'${APP_TYPE}'`
+      })
     )
 }
 function pathScript() {
-  return pathScriptCommon().pipe(gulp.dest(DEST))
+  return compileScriptCommon().pipe(gulp.dest(DEST))
 }
 
 // 支付宝小程序适配-组件生命周期/组件properties
 function compileScript2Aliapp() {
-  return pathScriptCommon()
+  return compileScriptCommon()
     .pipe(
       gulpReplace(/attached|ready/g, function (match) {
         return 'didMount'
@@ -178,6 +164,22 @@ function compileScript2Aliapp() {
     .pipe(
       gulpReplace(/\.properties/g, function (match) {
         return '.props'
+      })
+    )
+    .pipe(
+      gulpReplace(/wx\./g, function (match) {
+        return API_ADAPTER
+      })
+    )
+    .pipe(gulp.dest(DEST))
+}
+
+// 百度小程序适配 script
+function compileScript2Swan() {
+  return compileScriptCommon()
+    .pipe(
+      gulpReplace(/wx\./g, function (match) {
+        return API_ADAPTER
       })
     )
     .pipe(gulp.dest(DEST))
@@ -363,18 +365,28 @@ function formatScript() {
     .pipe(gulp.dest('src'))
 }
 
-const js = isAliapp ? gulp.series(eslint, compileScript2Aliapp, packDep) : gulp.series(eslint, pathScript, packDep)
+
+let js = null
+
+if (isAliapp) {
+  js = gulp.series(eslint, compileScript2Aliapp, packDep)
+} else if (isSwan) {
+  js = gulp.series(eslint, compileScript2Swan, packDep)
+} else {
+  js = gulp.series(eslint, pathScript, packDep)
+}
+
+
 const styles = gulp.series(stylelint)
 const swan = gulp.series(compileXML2Swan)
 const axml = gulp.series(compileXML2Aliapp)
 const config = gulp.series(copyConfig)
-const adapter = gulp.series(preProcessAdapterIndex, preProcessAdapter)
+const adapter = gulp.series(preProcessAdapter)
 const build = gulp.series(cleanDist, adapter, gulp.parallel(pathJson, imagemin, js, styles, config, isWeapp ? xml : (isSwan ? swan : axml)))
 const start = gulp.series(build, watch)
 
 function watch() {
   gulp.watch(SRC.ADAPTER, preProcessAdapter)
-  gulp.watch(SRC.ADAPTER_INDEX, preProcessAdapterIndex)
   gulp.watch(SRC.STYLE, styles)
   gulp.watch(SRC.SCRIPT, js)
   gulp.watch(SRC.JSON, pathJson)

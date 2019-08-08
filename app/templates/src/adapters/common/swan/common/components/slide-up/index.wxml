@@ -1,0 +1,17 @@
+<view wx:if="{{show}}" catchtouchmove="handleCatch">
+  <view animation="{{maskAnimation}}" class="slide-up-mask"></view>
+  <view animation="{{contentAnimation}}" class="slide-up-content">
+    <view wx:if="{{!onlyClose}}" class="slide-header border-bottom">
+      <view class="cancel" bindtap="handleCancelClick" hover-class="view-hover">取消</view>
+      <view class="title">{{title}}</view>
+      <view class="confirm" bindtap="handleOkClick" hover-class="view-hover">确认</view>
+    </view>
+    <view wx:else class="slide-header-only-close">
+      <view class="close" bindtap="handleCancelClick" hover-class="view-hover">
+        <icon-dada type="close" otherSize="{{32}}" />
+      </view>
+      <view class="title">{{title}}</view>
+    </view>
+    <slot></slot>
+  </view>
+</view>

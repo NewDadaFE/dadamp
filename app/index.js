@@ -68,6 +68,11 @@ module.exports = class extends Generator {
       },
       {
         type: 'confirm',
+        name: 'dadaMPAdapter',
+        message: 'Would you like to use functional difference adaptions for DADA company?',
+      },
+      {
+        type: 'confirm',
         name: 'install',
         message: 'Would you like to install dependencies?',
       },
@@ -92,7 +97,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    const { name, description, weapp, swan, aliapp } = this.props
+    const { name, description, weapp, swan, aliapp, dadaMPAdapter } = this.props
 
     // Copy example code
     if (!this.isUpgrade) {
@@ -101,18 +106,28 @@ module.exports = class extends Generator {
       this.fs.copy(this.templatePath('src/.*'), this.destinationRoot())
     }
 
+    // clone adtapter unique files
+    if (dadaMPAdapter) {
+      try {
+        execSync(`git clone git@git.corp.imdada.cn:fe/dadaMPAdapter.git ${this.props.name}/src/adapters/unique`)
+        this.log('正在尝试下载达达公司独有业务适配代码...')
+      } catch (e) {
+        this.log('尝试下载达达公司独有业务适配代码失败！请检查自己的git权限和git配置。')
+      }
+    }
+
     // copy adtapter files
     if (weapp) {
       this.fs.copy(this.templatePath('config/project.config.json'), this.destinationPath('config/project.config.json'))
-      this.fs.copy(this.templatePath('src/adapters/weapp/**'), this.destinationPath('src/adapters/weapp'))
+      this.fs.copy(this.templatePath('src/adapters/common/weapp/**', 'src/adapters/unique/weapp/**'), this.destinationPath('src/adapters/weapp'))
     }
     if (swan) {
       this.fs.copy(this.templatePath('config/project.swan.json'), this.destinationPath('config/project.swan.json'))
-      this.fs.copy(this.templatePath('src/adapters/swan/**'), this.destinationPath('src/adapters/swan'))
+      this.fs.copy(this.templatePath('src/adapters/common/swan/**', 'src/adapters/unique/swan/**'), this.destinationPath('src/adapters/swan'))
     }
     if (aliapp) {
       this.fs.copy(this.templatePath('config/project.aliapp.json'), this.destinationPath('config/project.aliapp.json'))
-      this.fs.copy(this.templatePath('src/adapters/aliapp/**'), this.destinationPath('src/adapters/aliapp'))
+      this.fs.copy(this.templatePath('src/adapters/common/aliapp/**', 'src/adapters/unique/aliapp/**'), this.destinationPath('src/adapters/aliapp'))
     }
 
     // copy adtapter api file

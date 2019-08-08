@@ -1,0 +1,46 @@
+.cell {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cell-xlg {
+  padding: 35rpx 32rpx;
+}
+
+.cell-lg {
+  padding: 35rpx 24rpx;
+}
+
+.cell-body {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.arrow-muted {
+  color: #6d7077;
+  padding-left: 16rpx;
+}
+
+.hr {
+  display: block;
+  height: 1rpx;
+  background-color: #e9e9eb;
+  margin-left: 20rpx;
+  transform: scale(1, 0.5);
+}
+
+.no-padding-x {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.no-margin-left {
+  margin-left: 0;
+}

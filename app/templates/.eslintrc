@@ -23,6 +23,7 @@
     "Page": true,
     "getApp": true,
     "Component": true,
-    "getCurrentPages": true
+    "getCurrentPages": true,
+    "APP_TYPE": true,
   },
 }
