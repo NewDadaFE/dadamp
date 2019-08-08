@@ -106,16 +106,6 @@ module.exports = class extends Generator {
       this.fs.copy(this.templatePath('src/.*'), this.destinationRoot())
     }
 
-    // clone adtapter unique files
-    if (dadaMPAdapter) {
-      try {
-        execSync(`git clone git@git.corp.imdada.cn:fe/dadaMPAdapter.git src/adapters/unique`)
-        this.log('正在尝试下载达达公司独有业务适配代码...')
-      } catch (e) {
-        this.log('尝试下载达达公司独有业务适配代码失败！请检查自己的git权限和git配置。')
-      }
-    }
-
     // copy adtapter files
     if (weapp) {
       this.fs.copy(this.templatePath('config/project.config.json'), this.destinationPath('config/project.config.json'))
@@ -130,9 +120,7 @@ module.exports = class extends Generator {
       this.fs.copy(this.templatePath('src/adapters/common/aliapp/**'), this.destinationPath('src/adapters/aliapp'))
     }
 
-    // copy adtapter api file
-    this.fs.copy(this.templatePath('src/adapters/index.js'), this.destinationPath('src/adapters/index.js'))
-
+    
     // Copy dot files of templates
     this.fs.copy(this.templatePath('.*'), this.destinationRoot())
 
@@ -159,6 +147,16 @@ module.exports = class extends Generator {
 
     // Copy JS
     this.fs.copy(this.templatePath('*.js'), this.destinationRoot())
+
+    // clone adtapter unique files
+    if (dadaMPAdapter) {
+      try {
+        execSync(`git clone git@git.corp.imdada.cn:fe/dadaMPAdapter.git src/adapters/unique`)
+        this.log('正在尝试下载达达公司独有业务适配代码...')
+      } catch (e) {
+        this.log('尝试下载达达公司独有业务适配代码失败！请检查自己的git权限和git配置。')
+      }
+    }
   }
 
   install() {
