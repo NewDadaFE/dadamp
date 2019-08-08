@@ -109,15 +109,15 @@ module.exports = class extends Generator {
     // copy adtapter files
     if (weapp) {
       this.fs.copy(this.templatePath('config/project.config.json'), this.destinationPath('config/project.config.json'))
-      this.fs.copy(this.templatePath('src/adapters/common/weapp/**'), this.destinationPath('src/adapters/weapp'))
+      this.fs.copy(this.templatePath('src/adapters/common/weapp/**'), this.destinationPath('src/adapters/common/weapp'))
     }
     if (swan) {
       this.fs.copy(this.templatePath('config/project.swan.json'), this.destinationPath('config/project.swan.json'))
-      this.fs.copy(this.templatePath('src/adapters/common/swan/**'), this.destinationPath('src/adapters/swan'))
+      this.fs.copy(this.templatePath('src/adapters/common/swan/**'), this.destinationPath('src/adapters/common/swan'))
     }
     if (aliapp) {
       this.fs.copy(this.templatePath('config/project.aliapp.json'), this.destinationPath('config/project.aliapp.json'))
-      this.fs.copy(this.templatePath('src/adapters/common/aliapp/**'), this.destinationPath('src/adapters/aliapp'))
+      this.fs.copy(this.templatePath('src/adapters/common/aliapp/**'), this.destinationPath('src/adapters/common/aliapp'))
     }
 
     
