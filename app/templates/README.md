@@ -56,7 +56,8 @@ http://confluence.corp.imdada.cn/pages/viewpage.action?pageId=10789946
 
 # 多端适配注意事项
 
-1，编译：微信组件，可以接收组件未定义属性 如事件/样式，支付宝组件经编译后，这些属性会丢失，需要注意把这些属性统一写在外层。
+1，编译（目的适配支付宝）：微信组件，可以接收组件未定义属性 如事件/样式，支付宝组件经编译后，这些属性会丢失，需要注意把这些属性统一写在外层。
+对此，我们需要注意自定义组件的使用规范，非组件定义的属性，一律不能写在组件上。
 编译正确示例：
 ```JavaScript
 <view class="padding" bindtap="handleOrderListClick">
@@ -119,28 +120,4 @@ Component({
 
 <!-- 错误示例： -->
 <cell />
-```
-
-5，自定义组件非定义属性丢失（如class，事件）（目的适配支付宝）：
-对此，我们需要注意自定义组件的使用规范，非组件定义的属性，一律不能写在组件上。
-
-```JavaScript
-<!-- 组件cell -->
-Component({
-  properties: {
-    // 是否可点击，显示箭头
-    hasArrow: {
-      type: Boolean,
-      value: true,
-    },
-  }
-})
-
-<!-- 正确示例： -->
-<view class="test" bindtab="test">
-  <cell hasArrow="{{true}}" />
-</view>
-
-<!-- 错误示例： -->
-<cell class="test" bindtab="test" hasArrow="{{true}}" />
 ```
