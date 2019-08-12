@@ -4,7 +4,7 @@
 
 <%= name %>小程序，基于 gulp4 和 webpack 打包，src 为源代码，dist** 为打包后代码，小程序添加项目文件夹指定 dist** 目录
 
-# 设配方案介绍
+# 适配方案介绍
 http://confluence.corp.imdada.cn/pages/viewpage.action?pageId=10933392
 
 # 目录结构介绍
