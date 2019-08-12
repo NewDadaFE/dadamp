@@ -8,21 +8,33 @@
 http://confluence.corp.imdada.cn/pages/viewpage.action?pageId=10933392
 
 # 目录结构介绍
+```JavaScript
 
 src--|--config    --项目配置文件(微信/百度/支付宝)
      |--distWeapp --微信包
      |--distSwan  --百度包
      |--disAliapp --支付宝包
-     |--src--|--adapters--|--index   --统一api对象
-             |            |--weapp   --微信适配模块
-             |            |--swan    --百度适配模块
-             |            |--aliapp--|  --支付宝适配模块 （微信/百度/支付宝三个模块的目录结构基本一致）
-             |                       |--common --该目录以及自目录 与 src中common模块以及子目录 一一对应
-             |                       |--pages  --该目录以及自目录 与 src中pages模块以及子目录 一一对应
-             |--common --各小程序，通用模块，对应子项目库--git@git.corp.imdada.cn:fe/spruce.git
+     |--src--|--adapters --框架-通用功能/非通用功能 适配模块
+             |       |--common --*框架通用功能*
+             |       |      |--weapp   --微信适配模块
+             |       |      |--swan    --百度适配模块
+             |       |      |--aliapp --支付宝适配模块 （微信/百度/支付宝三个模块的目录结构基本一致）
+             |       |             |--common --该目录以及自目录 与 src中common模块以及子目录 一一对应
+             |       |                    |--components  --组件
+             |       |                    |--utils  --功能api（request/事件等）二次封装
+             |       |           
+             |       |--unique --框架非通用功能，对应子项目库--dadaMPAdapter（注意：只有达达同学有权限拉取该部分模块代码）
+             |              |--weapp   --微信适配模块
+             |              |--swan    --百度适配模块
+             |              |--aliapp --支付宝适配模块 （微信/百度/支付宝三个模块的目录结构基本一致）
+             |                     |--common --该目录以及自目录 与 src中common模块以及子目录 一一对应
+             |                     |--pages  --该目录以及自目录 与 src中pages模块以及子目录 一一对应
+             |
+             |--common --各小程序业务代码，通用业务模块，对应子项目库--spruce（注意：只有达达同学有权限拉取该部分模块代码）
                     |--components --通用组件
                     |--pages/web  --小程序通过webview适配H5。多端可以使用一套H5，减少开发/维护成本。（浏览器/APP/小程序）
-             |--pages  --达达小程序业务逻辑页面
+             |--pages  --各小程序业务逻辑代码
+```
 
 # adapters目录内容总结
 
@@ -85,7 +97,7 @@ taskTypeId = e.currentTarget.dataset.taskTypeId
 ```
 
 
-4，组件属性赋值：
+4，组件属性赋值（目的适配支付宝）：
 支付宝组件外面传入属性定义如 props: { title: 'abc'}，而微信中是property: { type: String, title: 'abc' },
 这里适配核心是属性有默认值或者被赋值，所以统一适配成被赋值。需要注意的点是，即使仅需要使用默认值的情况，在使用组件时，
 不能省略赋值操作。
@@ -109,3 +121,26 @@ Component({
 <cell />
 ```
 
+5，自定义组件非定义属性丢失（如class，事件）（目的适配支付宝）：
+对此，我们需要注意自定义组件的使用规范，非组件定义的属性，一律不能写在组件上。
+
+```JavaScript
+<!-- 组件cell -->
+Component({
+  properties: {
+    // 是否可点击，显示箭头
+    hasArrow: {
+      type: Boolean,
+      value: true,
+    },
+  }
+})
+
+<!-- 正确示例： -->
+<view class="test" bindtab="test">
+  <cell hasArrow="{{true}}" />
+</view>
+
+<!-- 错误示例： -->
+<cell class="test" bindtab="test" hasArrow="{{true}}" />
+```
