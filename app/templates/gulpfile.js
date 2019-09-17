@@ -22,23 +22,23 @@ const APP_TYPE = options.target
 const isWeapp = options.target === 'weapp'
 const isSwan = options.target === 'swan'
 const isAliapp = options.target === 'aliapp'
+const isQqapp = options.target === 'qqapp'
 
 let dependencies = null
 let prevDependencies = null
 let DEST = ''
-let ADAPTER_SOURCE = ''
 let API_ADAPTER = ''
 
 if (isWeapp) {
   DEST = 'distWeapp'
-  ADAPTER_SOURCE = 'weapp'
 } else if (isSwan) {
   DEST = 'distSwan'
-  ADAPTER_SOURCE = 'swan'
   API_ADAPTER = 'swan.'
+} else if (isQqapp) {
+  DEST = 'distQqapp'
+  API_ADAPTER = 'qq.'
 } else {
   DEST = 'distAliapp'
-  ADAPTER_SOURCE = 'aliapp'
   API_ADAPTER = 'my.'
 }
 
@@ -51,7 +51,7 @@ const SRC = {
   IMAGE: ['src/**/*.{png,jpg,jpeg,gif,svg}', '!src/adapters/**/*'],
   CONFIG: 'src/project*.json',
   XML: ['src/**/*.wxml', '!src/adapters/**/*'],
-  ADAPTER: [`src/adapters/unique/${ADAPTER_SOURCE}/**/*`, `src/adapters/common/${ADAPTER_SOURCE}/**/*`]
+  ADAPTER: [`src/adapters/unique/${APP_TYPE}/**/*`, `src/adapters/common/${APP_TYPE}/**/*`]
 }
 
 function handleError (err) {
@@ -185,6 +185,17 @@ function compileScript2Swan() {
     .pipe(gulp.dest(DEST))
 }
 
+// QQ小程序适配 script
+function compileScript2Qqapp() {
+  return compileScriptCommon()
+    .pipe(
+      gulpReplace(/wx\./g, function (match) {
+        return API_ADAPTER
+      })
+    )
+    .pipe(gulp.dest(DEST))
+}
+
 function packDep(done) {
   const flag = dependencies && deepEqual(dependencies, prevDependencies)
   console.log(dependencies)
@@ -230,6 +241,18 @@ function pathJson() {
 }
 
 function stylelint() {
+  let cssName = ''
+
+  if (isWeapp) {
+    cssName = '.wxss'
+  } else if (isQqapp) {
+    cssName = '.qss'
+  } else if (isSwan) {
+    cssName = '.css'
+  } else {
+    cssName = '.acss'
+  }
+
   return gulp
     .src(SRC.STYLE, {since: gulp.lastRun(stylelint)})
     .pipe(gulpStylelint({
@@ -239,12 +262,12 @@ function stylelint() {
     .pipe(gulp.dest('src'))
     .pipe(
       gulpRename(path => {
-        path.extname = isWeapp ? '.wxss' : (isSwan ? '.css' : '.acss')
+        path.extname = cssName
       })
     )
     .pipe(
       gulpReplace(/\.css/g, function (match) {
-        return isWeapp ? '.wxss' : (isSwan ? '.css' : '.acss')
+        return cssName
       })
     )
     .pipe(gulp.dest(DEST))
@@ -317,9 +340,37 @@ function compileXML2Aliapp() {
     .pipe(gulp.dest(DEST))
 }
 
+function compileXML2Qqapp() {
+  return gulp
+    .src(SRC.XML)
+    .pipe(
+      gulpReplace(/wx\:|\.wxml/g, function (match) {
+        if (match === '.wxml') {
+          return '.qml'
+        } else {
+          return 'qq:'
+        }
+      })
+    )
+    .pipe(
+      gulpRename(path => {
+        path.extname = '.qml'
+      })
+    )
+    .pipe(gulp.dest(DEST))
+}
+
+// todo
 function copyConfig() {
   return gulp
-    .src(`config/project.${isWeapp ? 'config' : (isSwan ? 'swan' : 'aliapp')}.json`, {since: gulp.lastRun(copyConfig)})
+    .src(`config/project.${APP_TYPE}.json`, {since: gulp.lastRun(copyConfig)})
+    .pipe(
+      gulpRename(path => {
+        if (isWeapp || isQqapp) {
+          path.basename = 'project.config'
+        }
+      })
+    )
     .pipe(gulp.dest(DEST))
 }
 
@@ -366,23 +417,31 @@ function formatScript() {
 }
 
 
+const swan = gulp.series(compileXML2Swan)
+const axml = gulp.series(compileXML2Aliapp)
+const qml = gulp.series(compileXML2Qqapp)
 let js = null
+let mpXml = null
 
 if (isAliapp) {
   js = gulp.series(eslint, compileScript2Aliapp, packDep)
+  mpXml = axml
 } else if (isSwan) {
   js = gulp.series(eslint, compileScript2Swan, packDep)
+  mpXml = swan
+} else if (isQqapp) {
+  js = gulp.series(eslint, compileScript2Qqapp, packDep)
+  mpXml = qml
 } else {
   js = gulp.series(eslint, pathScript, packDep)
+  mpXml = xml
 }
 
 
 const styles = gulp.series(stylelint)
-const swan = gulp.series(compileXML2Swan)
-const axml = gulp.series(compileXML2Aliapp)
 const config = gulp.series(copyConfig)
 const adapter = gulp.series(preProcessAdapter)
-const build = gulp.series(cleanDist, adapter, gulp.parallel(pathJson, imagemin, js, styles, config, isWeapp ? xml : (isSwan ? swan : axml)))
+const build = gulp.series(cleanDist, adapter, gulp.parallel(pathJson, imagemin, js, styles, config, mpXml))
 const start = gulp.series(build, watch)
 
 function watch() {
@@ -391,13 +450,7 @@ function watch() {
   gulp.watch(SRC.SCRIPT, js)
   gulp.watch(SRC.JSON, pathJson)
   gulp.watch(SRC.IMAGE, imagemin)
-  if (isWeapp) {
-    gulp.watch(SRC.XML, xml)
-  } else if (isSwan) {
-    gulp.watch(SRC.XML, swan)
-  } else {
-    gulp.watch(SRC.XML, axml)
-  }
+  gulp.watch(SRC.XML, mpXml)
   gulp.watch(SRC.CONFIG, config)
   gulp.watch([SRC.STYLE, SRC.SCRIPT, SRC.JSON, SRC.IMAGE, SRC.XML, SRC.CONFIG])
     .on('unlink', function(filepath) {

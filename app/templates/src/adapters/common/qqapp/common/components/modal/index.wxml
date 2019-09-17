@@ -1,0 +1,20 @@
+<cover-view  wx:if="{{show}}" >
+  <cover-view class="modal-mask" animation="{{maskAnimation}}">
+    <cover-view class="modal" animation="{{maskAnimation}}" style="{{modalOtherStyle}}">
+      <cover-view class="modal-header">
+        <slot name="header"></slot>
+      </cover-view>
+      <cover-view class="modal-body">
+        <slot name="body"></slot>
+      </cover-view>
+      <cover-view class="{{showBorder ? 'modal-footer border-top' : 'modal-footer'}}">
+        <cover-view class="{{showBorder ? 'modal-footer-item border-right' : 'modal-footer-item'}}">
+          <slot name="cancel"></slot>
+        </cover-view>
+        <cover-view class="modal-footer-item">
+          <slot name="ok"></slot>
+        </cover-view>
+      </cover-view>
+    </cover-view>
+  </cover-view>
+</cover-view >

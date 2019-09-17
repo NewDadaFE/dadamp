@@ -14,10 +14,12 @@ src--|--config    --项目配置文件(微信/百度/支付宝)
      |--distWeapp --微信包
      |--distSwan  --百度包
      |--disAliapp --支付宝包
+     |--disQqapp --qq包
      |--src--|--adapters --框架-通用功能/非通用功能 适配模块
              |       |--common --*框架通用功能*
              |       |      |--weapp   --微信适配模块
              |       |      |--swan    --百度适配模块
+             |       |      |--qqapp   --qq适配模块
              |       |      |--aliapp --支付宝适配模块 （微信/百度/支付宝三个模块的目录结构基本一致）
              |       |             |--common --该目录以及自目录 与 src中common模块以及子目录 一一对应
              |       |                    |--components  --组件
@@ -26,6 +28,7 @@ src--|--config    --项目配置文件(微信/百度/支付宝)
              |       |--unique --框架非通用功能，对应子项目库--dadaMPAdapter（注意：只有达达同学有权限拉取该部分模块代码）
              |              |--weapp   --微信适配模块
              |              |--swan    --百度适配模块
+             |              |--qqapp   --qq适配模块
              |              |--aliapp --支付宝适配模块 （微信/百度/支付宝三个模块的目录结构基本一致）
              |                     |--common --该目录以及自目录 与 src中common模块以及子目录 一一对应
              |                     |--pages  --该目录以及自目录 与 src中pages模块以及子目录 一一对应

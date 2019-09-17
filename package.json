@@ -1,6 +1,6 @@
 {
   "name": "generator-dadamp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "MIT",
   "description": "Yeoman generator for Vue",
   "dependencies": {
@@ -10,7 +10,7 @@
     "yeoman-generator": "~1.1.1",
     "yosay": "~2.0.1"
   },
-  "repository": "NewDadaFE/miniprogram-adaptation-cli",
+  "repository": "NewDadaFE/dadamp",
   "engines": {
     "node": ">=6"
   },
