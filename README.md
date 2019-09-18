@@ -1,6 +1,9 @@
-# 简介
+## 简介
 dadamp(dada mini program)
-是一套遵循微信原生语法规范(https://developers.weixin.qq.com/miniprogram)的多端适配方案
+是一套遵循微信原生语法规范(https://developers.weixin.qq.com/miniprogram) 的多端适配方案
+
+## 已支持小程序
+微信 / 百度 / 支付宝 / QQ
 
 ## 核心功能
 

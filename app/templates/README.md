@@ -124,3 +124,14 @@ Component({
 <!-- 错误示例： -->
 <cell />
 ```
+
+5，标签不闭合可能导致xml等转译失败：
+因为目前我们的xml/js语法转译主要采用正则匹配替换方式，标签不闭合可能导致xml等语法转译失败。
+
+```JavaScript
+<!-- 正确示例： -->
+<cell wx:if="{{hasArrow}}"></cell>
+
+<!-- 错误示例： -->
+<cell wx:if="{{hasArrow}}"/>
+```

@@ -63,6 +63,11 @@ module.exports = class extends Generator {
       },
       {
         type: 'confirm',
+        name: 'qqapp',
+        message: 'Would you like to use functional difference adaptions for qqapp of qq?',
+      },
+      {
+        type: 'confirm',
         name: 'aliapp',
         message: 'Would you like to use functional difference adaptions for aliapp of alipay?',
       },
@@ -97,7 +102,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    const { name, description, weapp, swan, aliapp, dadaMPAdapter } = this.props
+    const { name, description, weapp, swan, qqapp, aliapp, dadaMPAdapter } = this.props
 
     // Copy example code
     if (!this.isUpgrade) {
@@ -108,12 +113,16 @@ module.exports = class extends Generator {
 
     // copy adtapter files
     if (weapp) {
-      this.fs.copy(this.templatePath('config/project.config.json'), this.destinationPath('config/project.config.json'))
+      this.fs.copy(this.templatePath('config/project.weapp.json'), this.destinationPath('config/project.config.json'))
       this.fs.copy(this.templatePath('src/adapters/common/weapp/**'), this.destinationPath('src/adapters/common/weapp'))
     }
     if (swan) {
       this.fs.copy(this.templatePath('config/project.swan.json'), this.destinationPath('config/project.swan.json'))
       this.fs.copy(this.templatePath('src/adapters/common/swan/**'), this.destinationPath('src/adapters/common/swan'))
+    }
+    if (qqapp) {
+      this.fs.copy(this.templatePath('config/project.qqapp.json'), this.destinationPath('config/project.qqapp.json'))
+      this.fs.copy(this.templatePath('src/adapters/common/qqapp/**'), this.destinationPath('src/adapters/common/qqapp'))
     }
     if (aliapp) {
       this.fs.copy(this.templatePath('config/project.aliapp.json'), this.destinationPath('config/project.aliapp.json'))
