@@ -135,3 +135,14 @@ Component({
 <!-- 错误示例： -->
 <cell wx:if="{{hasArrow}}"/>
 ```
+
+6，预定义APP_TYPE取值来自脚本命令：
+可以利用该字段，对平台功能进行区分展示。
+
+```JavaScript
+<!-- 示例： -->
+yarn start:weapp  则 APP_TYPE='weapp'
+yarn start:swan   则 APP_TYPE='swan'
+yarn start:aliapp 则 APP_TYPE='aliapp'
+yarn start:qqapp  则 APP_TYPE='qqapp'
+```
