@@ -60,10 +60,4 @@ const setTitle = (context, app, titleOptions) => {
  */
 const navigateToMiniProgram = options => wx.navigateToMiniProgram(options)
 
-const showModal = options => wx.showModal(options)
-
-const requestPayment = options => wx.requestPayment(options)
-
-const makePhoneCall = options => wx.makePhoneCall(options)
-
-export { getStorageSync, setStorageSync, removeStorageSync, request, triggerEvent, showToast, setIncludePoints, getClipboardData, setTitle, navigateToMiniProgram, showModal, requestPayment, makePhoneCall }
+export { getStorageSync, setStorageSync, removeStorageSync, request, triggerEvent, showToast, setIncludePoints, getClipboardData, setTitle, navigateToMiniProgram }

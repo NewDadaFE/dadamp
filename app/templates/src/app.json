@@ -6,9 +6,9 @@
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "达达",
+    "navigationBarTitleText": "达达快送",
     "navigationBarTextStyle": "black",
     "navigationStyle": "custom",
-    "defaultTitle": "达达"
+    "defaultTitle": "达达快送"
   }
 }

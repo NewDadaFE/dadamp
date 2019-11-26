@@ -33,7 +33,7 @@ Component({
     // 微信/百度：dataset对象，组件不能获取到，但父对象能获取到
     cellClick() {
       if (this.data.to) {
-        return qq.navigateTo({
+        return wx.navigateTo({
           url: this.data.to,
         })
       }

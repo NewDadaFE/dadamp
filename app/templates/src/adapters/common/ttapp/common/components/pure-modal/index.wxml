@@ -1,0 +1,10 @@
+<block wx:if="{{show}}">
+  <view catchtouchmove="handleCatch" class="modal-mask" animation="{{maskAnimation}}">
+    <slot class="modal" wx:if="{{show}}" animation="{{contentAnimation}}"></slot>
+    <view class="close-container" wx:if="{{closable}}">
+      <view class="text-muted close" bindtap="handleCloseClick">
+        <icon-dada type="close" />
+      </view>
+    </view>
+  </view>
+</block>

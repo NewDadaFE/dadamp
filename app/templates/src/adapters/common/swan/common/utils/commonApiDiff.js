@@ -64,4 +64,8 @@ const navigateToMiniProgram = options => {
   swan.navigateToSmartProgram(options)
 }
 
-export { getStorageSync, setStorageSync, removeStorageSync, request, triggerEvent, showToast, setIncludePoints, getClipboardData, setTitle, navigateToMiniProgram }
+const showModal = options => swan.showModal(options)
+
+const makePhoneCall = options => swan.makePhoneCall(options)
+
+export { getStorageSync, setStorageSync, removeStorageSync, request, triggerEvent, showToast, setIncludePoints, getClipboardData, setTitle, navigateToMiniProgram, showModal, makePhoneCall }

@@ -8,7 +8,6 @@ const resolve = require('resolve')
 const webpackStream = require('webpack-stream')
 const webpack = require('webpack')
 const gulpEslint = require('gulp-eslint')
-const gulpImagemin = require('gulp-imagemin')
 const deepEqual = require('deep-equal')
 const gulpStylelint = require('gulp-stylelint')
 const del = require('del')
@@ -23,6 +22,7 @@ const isWeapp = options.target === 'weapp'
 const isSwan = options.target === 'swan'
 const isAliapp = options.target === 'aliapp'
 const isQqapp = options.target === 'qqapp'
+const isTtapp = options.target === 'ttapp'
 
 let dependencies = null
 let prevDependencies = null
@@ -37,7 +37,10 @@ if (isWeapp) {
 } else if (isQqapp) {
   DEST = 'distQqapp'
   API_ADAPTER = 'qq.'
-} else {
+} else if (isTtapp) {
+  DEST = 'distTtapp'
+  API_ADAPTER = 'tt.'
+}  else {
   DEST = 'distAliapp'
   API_ADAPTER = 'my.'
 }
@@ -62,9 +65,6 @@ function handleError (err) {
 function imagemin() {
   return gulp
     .src(SRC.IMAGE, {since: gulp.lastRun(imagemin)})
-    .pipe(gulpImagemin({
-      verbose: true,
-    }))
     .pipe(gulp.dest(DEST))
 }
 
@@ -86,11 +86,17 @@ function preProcessAdapter() {
     )
     .pipe(gulp.dest('src'))
 }
-
-function xml() {
+function compileXmlCommon () {
   return gulp
     .src(SRC.XML, {since: gulp.lastRun(xml)})
-    .pipe(gulp.dest(DEST))
+    .pipe(
+      gulpReplace(/APP\_TYPE/g, function (match) {
+        return `'${APP_TYPE}'`
+      })
+    )
+}
+function xml() {
+  return compileXmlCommon().pipe(gulp.dest(DEST))
 }
 
 function eslint() {
@@ -196,6 +202,17 @@ function compileScript2Qqapp() {
     .pipe(gulp.dest(DEST))
 }
 
+// 头条小程序适配 script
+function compileScript2Ttapp() {
+  return compileScriptCommon()
+    .pipe(
+      gulpReplace(/wx\./g, function (match) {
+        return API_ADAPTER
+      })
+    )
+    .pipe(gulp.dest(DEST))
+}
+
 function packDep(done) {
   const flag = dependencies && deepEqual(dependencies, prevDependencies)
   console.log(dependencies)
@@ -249,6 +266,8 @@ function stylelint() {
     cssName = '.qss'
   } else if (isSwan) {
     cssName = '.css'
+  } else if (isTtapp) {
+    cssName = '.ttss'
   } else {
     cssName = '.acss'
   }
@@ -274,8 +293,7 @@ function stylelint() {
 }
 
 function compileXML2Swan() {
-  return gulp
-    .src(SRC.XML)
+  return compileXmlCommon()
     .pipe(
       gulpReplace(/(if|elif|for)=\"\{\{(.*?)\}\}\"/g, function (match, p1, p2) {
         return `${p1}="${p2}"`
@@ -304,8 +322,7 @@ function compileXML2Swan() {
 }
 
 function compileXML2Aliapp() {
-  return gulp
-    .src(SRC.XML)
+  return compileXmlCommon()
     .pipe(
       gulpReplace(/wx\:|\.wxml/g, function (match) {
         if (match === '.wxml') {
@@ -341,8 +358,7 @@ function compileXML2Aliapp() {
 }
 
 function compileXML2Qqapp() {
-  return gulp
-    .src(SRC.XML)
+  return compileXmlCommon()
     .pipe(
       gulpReplace(/wx\:|\.wxml/g, function (match) {
         if (match === '.wxml') {
@@ -360,13 +376,33 @@ function compileXML2Qqapp() {
     .pipe(gulp.dest(DEST))
 }
 
+function compileXML2Ttapp() {
+  return gulp
+    .src(SRC.XML)
+    .pipe(
+      gulpReplace(/wx\:|\.wxml/g, function (match) {
+        if (match === '.wxml') {
+          return '.ttml'
+        } else {
+          return 'tt:'
+        }
+      })
+    )
+    .pipe(
+      gulpRename(path => {
+        path.extname = '.ttml'
+      })
+    )
+    .pipe(gulp.dest(DEST))
+}
+
 // todo
 function copyConfig() {
   return gulp
     .src(`config/project.${APP_TYPE}.json`, {since: gulp.lastRun(copyConfig)})
     .pipe(
       gulpRename(path => {
-        if (isWeapp || isQqapp) {
+        if (isWeapp || isQqapp || isTtapp) {
           path.basename = 'project.config'
         }
       })
@@ -420,6 +456,7 @@ function formatScript() {
 const swan = gulp.series(compileXML2Swan)
 const axml = gulp.series(compileXML2Aliapp)
 const qml = gulp.series(compileXML2Qqapp)
+const ttml = gulp.series(compileXML2Ttapp)
 let js = null
 let mpXml = null
 
@@ -432,6 +469,9 @@ if (isAliapp) {
 } else if (isQqapp) {
   js = gulp.series(eslint, compileScript2Qqapp, packDep)
   mpXml = qml
+} else if (isTtapp) {
+  js = gulp.series(eslint, compileScript2Ttapp, packDep)
+  mpXml = ttml
 } else {
   js = gulp.series(eslint, pathScript, packDep)
   mpXml = xml
@@ -442,7 +482,9 @@ const styles = gulp.series(stylelint)
 const config = gulp.series(copyConfig)
 const adapter = gulp.series(preProcessAdapter)
 const build = gulp.series(cleanDist, adapter, gulp.parallel(pathJson, imagemin, js, styles, config, mpXml))
-const start = gulp.series(build, watch)
+const start = gulp.series(build)
+// const watch = gulp.series(watch)
+// todo watch优化
 
 function watch() {
   gulp.watch(SRC.ADAPTER, preProcessAdapter)

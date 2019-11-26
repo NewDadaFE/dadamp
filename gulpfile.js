@@ -7,7 +7,7 @@ const clean = () => {
 
 const script = () => {
     return gulp
-        .src(['**/*'])
+        .src(['**/*', '**/.*'])
         .pipe(gulp.dest('dist'));
 };
 

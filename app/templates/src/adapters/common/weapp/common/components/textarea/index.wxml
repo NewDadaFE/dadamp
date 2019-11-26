@@ -1,0 +1,6 @@
+<block>
+  <slot name="realTextarea"></slot>
+  <view class="textarea-num">
+    {{contentLength}}/{{maxlength}}
+  </view>
+</block>

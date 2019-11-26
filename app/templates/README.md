@@ -14,12 +14,14 @@ src--|--config    --项目配置文件(微信/百度/支付宝)
      |--distWeapp --微信包
      |--distSwan  --百度包
      |--disAliapp --支付宝包
-     |--disQqapp --qq包
+     |--disQqapp  --qq包
+     |--disTtapp  --头条包
      |--src--|--adapters --框架-通用功能/非通用功能 适配模块
              |       |--common --*框架通用功能*
              |       |      |--weapp   --微信适配模块
              |       |      |--swan    --百度适配模块
              |       |      |--qqapp   --qq适配模块
+             |       |      |--ttapp   --头条适配模块
              |       |      |--aliapp --支付宝适配模块 （微信/百度/支付宝三个模块的目录结构基本一致）
              |       |             |--common --该目录以及自目录 与 src中common模块以及子目录 一一对应
              |       |                    |--components  --组件
@@ -53,7 +55,7 @@ yarn start:weapp   发布微信小程序代码   生产目录 distWeapp
 yarn start:swan    发布百度小程序代码   生产目录 distSwan
 yarn start:aliapp  发布支付宝小程序代码 生产目录 disAliapp
 
-# 多端（微信/百度/支付宝）差异整理
+# 多端（微信/百度/支付宝/QQ/头条）差异整理
 
 http://confluence.corp.imdada.cn/pages/viewpage.action?pageId=10789946
 
@@ -136,8 +138,10 @@ Component({
 <cell wx:if="{{hasArrow}}"/>
 ```
 
-6，预定义APP_TYPE取值来自脚本命令：
-可以利用该字段，对平台功能进行区分展示，可以在js代码中应用，编译时会进行正确替换。
+6，关于APP_TYPE的使用
+该字段可以应用在xml以及js文件中。在编译打包时，根据打包命令参数来赋值，举例如yarn start:weapp，
+则APP_TYPE字段会被'weapp'取代，可以应用该字段进行不同平台的适配，但如果对应平台适配差异较大，建议
+考虑把对应适配模块抽象到adapters/unique模块。
 
 ```JavaScript
 <!-- 示例： -->
@@ -149,4 +153,5 @@ yarn start:weapp  则 APP_TYPE='weapp'
 yarn start:swan   则 APP_TYPE='swan'
 yarn start:aliapp 则 APP_TYPE='aliapp'
 yarn start:qqapp  则 APP_TYPE='qqapp'
+yarn start:ttapp  则 APP_TYPE='ttapp'
 ```

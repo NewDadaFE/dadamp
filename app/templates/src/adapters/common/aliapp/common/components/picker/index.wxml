@@ -1,0 +1,23 @@
+<slide-up
+  show="{{options.show}}"
+  showCancel="{{true}}"
+  showConfirm="{{true}}"
+  bind:cancel="handleCancel"
+  bind:ok="handleConfirm">
+  <picker-view
+    value="{{options.value}}"
+    bind:change="handleValueChange">
+    <picker-view-column
+      wx:for="{{options.range}}"
+      wx:for-item="rangeColumnItem">
+      <view
+        wx:for="{{rangeColumnItem}}"
+        wx:for-item="item">
+        {{item}}
+      </view>
+    </picker-view-column>
+  </picker-view>
+</slide-up>
+<slot></slot>
+
+

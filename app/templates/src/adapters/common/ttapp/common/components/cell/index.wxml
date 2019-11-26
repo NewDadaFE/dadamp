@@ -1,0 +1,21 @@
+<block>
+  <view
+    class="cell {{size ? 'cell-' + size : ''}} {{expansion ? 'no-padding-x' : ''}}"
+    bindtap="cellClick"
+    bindlongtap="cellPress"
+    style="{{cellStyle}}">
+    <view class="cell-header">
+      <slot name="header"></slot>
+    </view>
+    <view class="cell-body">
+      <slot name="body"></slot>
+    </view>
+    <view class="cell-footer">
+      <slot name="footer"></slot>
+    </view>
+    <view wx:if="{{hasArrow}}" class="arrow-muted">
+      <icon-dada type="arrow-right" otherSize="{{20}}" />
+    </view>
+  </view>
+  <view wx:if="{{hasBorder}}" class="hr {{expansion ? 'no-margin-left' : ''}}" />
+</block>

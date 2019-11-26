@@ -1,0 +1,10 @@
+<picker
+  disabled="{{options.disabled}}"
+  mode="{{options.mode}}"
+  value="{{options.value}}"
+  range="{{options.range}}"
+  bind:columnchange="handleValueChange"
+  bind:cancel="handleCancel"
+  bind:change="handleConfirm">
+  <slot></slot>
+</picker>

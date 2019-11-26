@@ -6,8 +6,11 @@ Component({
     maskAnimation: {},
     contentAnimation: {},
   },
+  options: {
+    multipleSlots: true, // 在组件定义时的选项中启用多slot支持
+  },
   properties: {
-    // 是否显示1
+    // 是否显示
     show: {
       type: Boolean,
       value: false,
@@ -23,8 +26,8 @@ Component({
           {
             animationName: 'contentAnimation',
             propertyOptions: [{
-              key: 'translateY',
-              value: '0%'
+              key: 'scale',
+              value: 1
             }]
           }
         ]
@@ -33,25 +36,18 @@ Component({
       },
     },
     title: String,
-    onlyClose: {
+    close: {
+      type: Function,
+    },
+    closable: {
       type: Boolean,
       value: false,
     },
-    ok: {
-      type: Function,
-    },
-    cancel: {
-      type: Function,
-    },
   },
   methods: {
-    handleOkClick(e) {
-      triggerEvent(this, 'ok', e)
+    handleCloseClick() {
+      triggerEvent(this, 'close', this.props || this.dataset)
     },
-    handleCancelClick(e) {
-      triggerEvent(this, 'cancel', e)
-    },
-    // 防止滚动穿透
     handleCatch() {},
   },
 })

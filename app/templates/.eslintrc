@@ -19,11 +19,13 @@
     "wx": true,
     "swan": true,
     "my": true,
+    "qq": true,
+    "tt": true,
     "App": true,
     "Page": true,
     "getApp": true,
     "Component": true,
     "getCurrentPages": true,
-    "APP_TYPE": true,
-  },
+    "APP_TYPE": true
+  }
 }

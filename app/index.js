@@ -68,6 +68,11 @@ module.exports = class extends Generator {
       },
       {
         type: 'confirm',
+        name: 'ttapp',
+        message: 'Would you like to use functional difference adaptions for ttapp of toutiao?',
+      },
+      {
+        type: 'confirm',
         name: 'aliapp',
         message: 'Would you like to use functional difference adaptions for aliapp of alipay?',
       },
@@ -102,7 +107,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    const { name, description, weapp, swan, qqapp, aliapp, dadaMPAdapter } = this.props
+    const { name, description, weapp, swan, qqapp, ttapp, aliapp, dadaMPAdapter } = this.props
 
     // Copy example code
     if (!this.isUpgrade) {
@@ -123,6 +128,10 @@ module.exports = class extends Generator {
     if (qqapp) {
       this.fs.copy(this.templatePath('config/project.qqapp.json'), this.destinationPath('config/project.qqapp.json'))
       this.fs.copy(this.templatePath('src/adapters/common/qqapp/**'), this.destinationPath('src/adapters/common/qqapp'))
+    }
+    if (ttapp) {
+      this.fs.copy(this.templatePath('config/project.ttapp.json'), this.destinationPath('config/project.ttapp.json'))
+      this.fs.copy(this.templatePath('src/adapters/common/ttapp/**'), this.destinationPath('src/adapters/common/ttapp'))
     }
     if (aliapp) {
       this.fs.copy(this.templatePath('config/project.aliapp.json'), this.destinationPath('config/project.aliapp.json'))
