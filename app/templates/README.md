@@ -10,7 +10,7 @@ http://confluence.corp.imdada.cn/pages/viewpage.action?pageId=10933392
 # 目录结构介绍
 ```JavaScript
 
-src--|--config    --项目配置文件(微信/百度/支付宝)
+src--|--config    --项目配置文件(微信/百度/支付宝/QQ/头条)
      |--distWeapp --微信包
      |--distSwan  --百度包
      |--disAliapp --支付宝包
@@ -22,8 +22,8 @@ src--|--config    --项目配置文件(微信/百度/支付宝)
              |       |      |--swan    --百度适配模块
              |       |      |--qqapp   --qq适配模块
              |       |      |--ttapp   --头条适配模块
-             |       |      |--aliapp --支付宝适配模块 （微信/百度/支付宝三个模块的目录结构基本一致）
-             |       |             |--common --该目录以及自目录 与 src中common模块以及子目录 一一对应
+             |       |      |--aliapp --支付宝适配模块 （微信/百度/支付宝/QQ/头条五个模块的目录结构基本一致）
+             |       |             |--common --该目录以及子目录 与 src中common模块以及子目录 一一对应
              |       |                    |--components  --组件
              |       |                    |--utils  --功能api（request/事件等）二次封装
              |       |           
@@ -31,9 +31,9 @@ src--|--config    --项目配置文件(微信/百度/支付宝)
              |              |--weapp   --微信适配模块
              |              |--swan    --百度适配模块
              |              |--qqapp   --qq适配模块
-             |              |--aliapp --支付宝适配模块 （微信/百度/支付宝三个模块的目录结构基本一致）
-             |                     |--common --该目录以及自目录 与 src中common模块以及子目录 一一对应
-             |                     |--pages  --该目录以及自目录 与 src中pages模块以及子目录 一一对应
+             |              |--aliapp --支付宝适配模块 （微信/百度/支付宝/QQ/头条五个模块的目录结构基本一致）
+             |                     |--common --该目录以及子目录 与 src中common模块以及子目录 一一对应
+             |                     |--pages  --该目录以及子目录 与 src中pages模块以及子目录 一一对应
              |
              |--common --各小程序业务代码，通用业务模块，对应子项目库--spruce（注意：只有达达同学有权限拉取该部分模块代码）
                     |--components --通用组件
@@ -43,10 +43,10 @@ src--|--config    --项目配置文件(微信/百度/支付宝)
 
 # adapters目录内容总结
 
-组件适配：cell、modal、pure-modal、slide-up
-页面适配：登陆、个人中心头部
+组件适配：cell、modal、pure-modal、textarea、picker
 api适配：getStorageSync, setStorageSync, removeStorageSync, request, triggerEvent,
         showToast, setIncludePoints, getClipboardData
+各平台特有业务适配
 
 # 脚本命令
 
@@ -54,6 +54,10 @@ yarn 安装依赖
 yarn start:weapp   发布微信小程序代码   生产目录 distWeapp
 yarn start:swan    发布百度小程序代码   生产目录 distSwan
 yarn start:aliapp  发布支付宝小程序代码 生产目录 disAliapp
+yarn start:qqapp   发布QQ小程序代码    生产目录 distQqapp
+yarn start:ttapp   发布头条小程序代码   生产目录 disTtapp
+yarn start:all     发布所有小程序代码   生产目录 disTtapp
+
 
 # 多端（微信/百度/支付宝/QQ/头条）差异整理
 
