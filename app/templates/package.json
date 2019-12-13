@@ -12,8 +12,8 @@
     "start:all": "gulp start --target aliapp && gulp start --target swan && gulp start --target qqapp && gulp start --target ttapp && gulp start --target weapp",
     "format": "gulp format"
   },
-  "repository": "git@git.corp.imdada.cn:fe/crinum.git",
-  "author": "sunbinbin",
+  "repository": "***",
+  "author": "XiongRongrong",
   "license": "ISC",
   "dependencies": {
     "@dada/apm-mp": "^1.0.0",

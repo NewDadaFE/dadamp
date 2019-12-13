@@ -155,3 +155,22 @@ yarn start:aliapp 则 APP_TYPE='aliapp'
 yarn start:qqapp  则 APP_TYPE='qqapp'
 yarn start:ttapp  则 APP_TYPE='ttapp'
 ```
+
+7，已适配api
+```JavaScript
+getStorageSync,
+setStorageSync,
+removeStorageSync,
+request,
+triggerEvent,
+setIncludePoints（地图api）,
+getClipboardData,
+setTitle,
+showToast,
+showModal,
+requestPayment,
+makePhoneCall,
+navigateToMiniProgram
+
+目前只适配了我们认为常用的api，未来会逐渐适配更多api
+```

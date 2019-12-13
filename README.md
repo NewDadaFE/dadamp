@@ -46,3 +46,11 @@ yo dadamp --upgrade
 ```
 ## 开发文档
 https://github.com/NewDadaFE/dadamp/blob/master/app/templates/README.md
+
+
+## 注意事项
+track-mini-program：达达埋点库
+apm-mp：达达监控库
+
+以上库可以自行删除或者替换成贵司对应库
+否则安装依赖时会因为没有访问权限而失败
